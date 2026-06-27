@@ -1,65 +1,79 @@
-/* ============================================================
-   DESIGN SYSTEM — Finance Tracker
-   Direzione: registro contabile + terminale finanziario
-   ============================================================ */
+@import 'primeicons/primeicons.css';
 
-/* --- Tema chiaro (default) --- */
+// --- TEMA CHIARO ---
+// :root è l'elemento <html> — le variabili qui sono disponibili in tutta l'app per ereditarietà CSS.
 :root {
-  --paper: #FBFAF7;
-  --surface: #FFFFFF;
-  --surface-raised: #F4F2EC;
-  --ink: #1A1D24;
-  --graphite: #5B6170;
-  --hairline: #E4E0D8;
-  --hairline-strong: #D4CFC4;
+  // superfici
+  --paper:          #FBFAF7;  // sfondo principale
+  --surface:        #FFFFFF;  // card e pannelli
+  --surface-raised: #F4F2EC;  // hover, righe selezionate
 
-  --ledger: #2D6A5A;       /* verde contabile — entrate */
-  --ledger-bg: #E8F0EC;
-  --vermilion: #C7472F;    /* rosso contabile — uscite */
-  --vermilion-bg: #F7E9E5;
+  // testo
+  --ink:      #1A1D24;  // testo principale
+  --graphite: #5B6170;  // testo secondario
 
-  --accent: #2D6A5A;       /* azioni primarie */
-  --accent-text: #FBFAF7;
+  // bordi
+  --hairline:         #E4E0DB;  // bordi sottili
+  --hairline-strong:  #D4CFC4;  // bordi più marcati
 
-  /* pilastri — colori distintivi per i 4 pilastri */
-  --pillar-protection: #3B6EA5;
-  --pillar-pension: #8B5A9E;
-  --pillar-accumulation: #2D6A5A;
-  --pillar-lifestyle: #C08A2D;
+  // colori finanziari
+  --ledger:       #2D6A5A;  // entrate, azioni primarie
+  --ledger-bg:    #E8F0EC;  // sfondo verde per badge e highlight
+  --vermilion:    #C7472F;  // uscite
+  --vermilion-bg: #F7E9E5;  // sfondo rosso tenue
 
+  // azioni primarie - pulsanti, link, focus
+  --accent:       #2D6A5A;
+  --accent-text:  #FFFFFF;
+
+  // pilastri - pallini
+  --pillar-protection:    #3B6EA5;  // blu — stabilità, protezione
+  --pillar-pension:       #8B5A9E;  // viola — lungo termine, crescita
+  --pillar-accumulation:  #2D6A5A;  // verde — accumulo attivo
+  --pillar-lifestyle:     #C08A2D;  // oro — presente, qualità della vita
+
+  // tipografia
   --font-sans: 'Inter', system-ui, sans-serif;
-  --font-mono: 'IBM Plex Mono', 'SF Mono', monospace;
+  --font-mono: 'IBM Plex Mono', 'Menlo', monospace;
 
-  --radius: 8px;
-  --radius-card: 12px;
+  // geometria
+  --radius:       8px;
+  --radius-card:  12px;
+  --radius-full:  9999px; // pillole, badge, tag
 }
 
-/* --- Tema scuro --- */
-:root[data-theme='dark'] {
-  --paper: #0F1318;
-  --surface: #161B22;
+// --- TEMA SCURO ---
+// si attiva quando :root ha la classe .app-dark
+:root.app-dark {
+  --paper:          #0F1318;
+  --surface:        #161B22;
   --surface-raised: #1C232C;
-  --ink: #F2F5F8;
+
+  --ink:      #F2F5F8;
   --graphite: #7A8694;
-  --hairline: #232A33;
+
+  --hairline:        #232A33;
   --hairline-strong: #2E3640;
 
-  --ledger: #19C39A;
+  // In dark mode i colori finanziari diventano più brillanti
+  --ledger:    #19C39A;
   --ledger-bg: #11302A;
-  --vermilion: #FF5C5C;
+  --vermilion:    #FF5C5C;
   --vermilion-bg: #331C1C;
 
-  --accent: #19C39A;
+  --accent:      #19C39A;
   --accent-text: #0F1318;
 
-  --pillar-protection: #4C8DFF;
-  --pillar-pension: #B57FD0;
-  --pillar-accumulation: #19C39A;
-  --pillar-lifestyle: #E0A845;
+  // I colori dei pilastri si adattano per restare leggibili sul scuro
+  --pillar-protection:  #4C8DFF;
+  --pillar-pension:     #B57FD0;
+  --pillar-accumulation:#19C39A;
+  --pillar-lifestyle:   #E0A845;
 }
 
-/* --- Reset e base --- */
-* {
+// --- RESET E BASE ---
+// Reset minimale che nasconde il comportamento del browser
+*, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -71,30 +85,50 @@ html, body {
 
 body {
   font-family: var(--font-sans);
-  background: var(--paper);
+  background-color: var(--paper);
   color: var(--ink);
   font-size: 15px;
   line-height: 1.5;
+  // antialiasing — rende i font più sottili e nitidi su schermo retina
   -webkit-font-smoothing: antialiased;
-  /* transizione fluida al cambio tema */
-  transition: background 0.2s ease, color 0.2s ease;
+  -moz-osx-font-smoothing: grayscale;
+  // transizione fluida al cambio tema — 200ms è abbastanza veloce
+  // da sembrare reattivo, abbastanza lento da essere percepibile
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
-/* --- Classe utility per gli importi monospace --- */
-/* il signature element dell'app */
+// -- CLASSI UTILIY ---
 .amount {
   font-family: var(--font-mono);
-  font-feature-settings: 'tnum';  /* cifre tabulari — allineamento perfetto */
-  letter-spacing: -0.01em;
+  // 'tnum' = tabular numbers: ogni cifra occupa la stessa larghezza.
+  // Anche se IBM Plex Mono è già monospace, questa impostazione
+  // garantisce il comportamento corretto in tutti i browser.
+  font-feature-settings: 'tnum';
+  letter-spacing: -0.01em;    // leggermente più compresso — i monospace tendono ad avere spaziatura generosa
 }
 
-.amount--income { color: var(--ledger); }
-.amount--expense { color: var(--vermilion); }
+// Varianti colore per il segno finanziario
+.amount--positive { color: var(--ledger); }
+.amount--negative { color: var(--vermilion); }
+.amount--neutral  { color: var(--ink); }
 
-/* --- Scrollbar discreta --- */
-::-webkit-scrollbar { width: 10px; height: 10px; }
+// --- SCROLLBAR ---
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
 ::-webkit-scrollbar-thumb {
   background: var(--hairline-strong);
-  border-radius: 5px;
+  border-radius: var(--radius-full);
 }
-::-webkit-scrollbar-track { background: transparent; }
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--graphite);
+}
