@@ -1,0 +1,100 @@
+/* ============================================================
+   DESIGN SYSTEM — Finance Tracker
+   Direzione: registro contabile + terminale finanziario
+   ============================================================ */
+
+/* --- Tema chiaro (default) --- */
+:root {
+  --paper: #FBFAF7;
+  --surface: #FFFFFF;
+  --surface-raised: #F4F2EC;
+  --ink: #1A1D24;
+  --graphite: #5B6170;
+  --hairline: #E4E0D8;
+  --hairline-strong: #D4CFC4;
+
+  --ledger: #2D6A5A;       /* verde contabile — entrate */
+  --ledger-bg: #E8F0EC;
+  --vermilion: #C7472F;    /* rosso contabile — uscite */
+  --vermilion-bg: #F7E9E5;
+
+  --accent: #2D6A5A;       /* azioni primarie */
+  --accent-text: #FBFAF7;
+
+  /* pilastri — colori distintivi per i 4 pilastri */
+  --pillar-protection: #3B6EA5;
+  --pillar-pension: #8B5A9E;
+  --pillar-accumulation: #2D6A5A;
+  --pillar-lifestyle: #C08A2D;
+
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'SF Mono', monospace;
+
+  --radius: 8px;
+  --radius-card: 12px;
+}
+
+/* --- Tema scuro --- */
+:root[data-theme='dark'] {
+  --paper: #0F1318;
+  --surface: #161B22;
+  --surface-raised: #1C232C;
+  --ink: #F2F5F8;
+  --graphite: #7A8694;
+  --hairline: #232A33;
+  --hairline-strong: #2E3640;
+
+  --ledger: #19C39A;
+  --ledger-bg: #11302A;
+  --vermilion: #FF5C5C;
+  --vermilion-bg: #331C1C;
+
+  --accent: #19C39A;
+  --accent-text: #0F1318;
+
+  --pillar-protection: #4C8DFF;
+  --pillar-pension: #B57FD0;
+  --pillar-accumulation: #19C39A;
+  --pillar-lifestyle: #E0A845;
+}
+
+/* --- Reset e base --- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  /* transizione fluida al cambio tema */
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+/* --- Classe utility per gli importi monospace --- */
+/* il signature element dell'app */
+.amount {
+  font-family: var(--font-mono);
+  font-feature-settings: 'tnum';  /* cifre tabulari — allineamento perfetto */
+  letter-spacing: -0.01em;
+}
+
+.amount--income { color: var(--ledger); }
+.amount--expense { color: var(--vermilion); }
+
+/* --- Scrollbar discreta --- */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb {
+  background: var(--hairline-strong);
+  border-radius: 5px;
+}
+::-webkit-scrollbar-track { background: transparent; }
